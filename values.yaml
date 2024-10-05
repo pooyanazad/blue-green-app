@@ -1,0 +1,14 @@
+replicaCount: 1
+image:
+  repository: nginx
+  tag: stable
+  pullPolicy: IfNotPresent
+service:
+  type: NodePort
+  port: 80
+  nodePort: 30080
+activeColor: green
+blueConfig:
+  color: "#0000FF"
+greenConfig:
+  color: "#00FF00"

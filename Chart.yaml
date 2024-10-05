@@ -1,0 +1,6 @@
+# Chart.yaml
+apiVersion: v2
+name: blue-green-app
+description: A Helm chart for blue/green deployments
+version: 0.1.0
+appVersion: "1.0.0"

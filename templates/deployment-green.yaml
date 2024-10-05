@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-green
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      version: green
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        version: green
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: config
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: config
+          configMap:
+            name: {{ .Release.Name }}-green-config
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-green-config
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Green Version</title>
+      <style>
+        body { background-color: {{ .Values.greenConfig.color }}; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+      </style>
+    </head>
+    <body>
+      <h1>This is the GREEN version</h1>
+    </body>
+    </html>
